@@ -6,4 +6,6 @@ package com.android.thedgmh.utils
 object Constants {
 
     val KEY_PRODUCT_DETAILS = "product details"
+
+    val BASE_URL = "https://limitless-forest-98976.herokuapp.com/"
 }

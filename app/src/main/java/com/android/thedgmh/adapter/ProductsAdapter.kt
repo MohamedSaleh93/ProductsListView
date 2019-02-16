@@ -10,7 +10,7 @@ import com.android.thedgmh.model.ProductsModel
 /**
  * Created by mohamedsaleh on 2/16/19.
  */
-class ProductsAdapter(val productsList: List<ProductItemModel>): RecyclerView.Adapter<ProductsViewHolder>() {
+class ProductsAdapter(val productsList: ArrayList<ProductItemModel>): RecyclerView.Adapter<ProductsViewHolder>() {
 
     override fun getItemCount(): Int {
         return productsList.size
@@ -22,5 +22,9 @@ class ProductsAdapter(val productsList: List<ProductItemModel>): RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
         holder.bindProduct(productsList[position])
+    }
+
+    fun addItems(products: List<ProductItemModel>?) {
+        products?.let { productsList.addAll(it) }
     }
 }

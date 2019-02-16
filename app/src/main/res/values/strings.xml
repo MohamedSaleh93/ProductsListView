@@ -3,4 +3,7 @@
     <string name="name">Name: </string>
     <string name="price">Price: </string>
     <string name="description">Description: </string>
+
+    <string name="cant_load_data">Can\'t load data, Something went wrong</string>
+    <string name="no_data">No data to load</string>
 </resources>
