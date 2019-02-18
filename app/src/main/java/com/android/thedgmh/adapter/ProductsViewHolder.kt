@@ -17,10 +17,14 @@ class ProductsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bindProduct(productItemModel: ProductItemModel) {
         itemView.productNameTV.text = productItemModel.name
         itemView.productPriceTV.text = productItemModel.price.toString()
-        Picasso.get()
-                .load(productItemModel.image.link)
-                .resize(productItemModel.image.width, productItemModel.image.height)
-                .into(itemView.productImageIV)
+        productItemModel.image?.width?.let {
+            productItemModel.image?.height?.let { it1 ->
+                Picasso.get()
+                    .load(productItemModel.image?.link)
+                    .resize(it, it1)
+                    .into(itemView.productImageIV)
+            }
+        }
         itemView.itemCard.setOnClickListener {
             val intent = Intent(itemView.context, ProductDetailsActivity::class.java)
             intent.putExtra(Constants.KEY_PRODUCT_DETAILS, productItemModel)

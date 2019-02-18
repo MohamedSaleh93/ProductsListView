@@ -2,16 +2,19 @@ package com.android.thedgmh.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 /**
  * Created by mohamedsaleh on 2/16/19.
  */
-data class ProductItemModel(
-        var id: Int,
-        var name: String,
-        var productDescription: String,
-        var image: ProductImageModel,
-        var price: Double) : Parcelable {
+open class ProductItemModel(
+        @PrimaryKey
+        var id: Int = 0,
+        var name: String = "",
+        var productDescription: String = "",
+        var image: ProductImageModel? = null,
+        var price: Double = 0.0) : RealmObject(), Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),

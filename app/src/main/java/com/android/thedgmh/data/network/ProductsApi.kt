@@ -1,6 +1,7 @@
 package com.android.thedgmh.data.network
 
 import com.android.thedgmh.model.ProductsModel
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 
@@ -10,5 +11,5 @@ import retrofit2.http.GET
 interface ProductsApi {
 
     @GET("/")
-    fun getProducts(): Single<ProductsModel>
+    fun getProducts(): Observable<ProductsModel>?
 }

@@ -2,14 +2,15 @@ package com.android.thedgmh.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.realm.RealmObject
 
 /**
  * Created by mohamedsaleh on 2/16/19.
  */
-data class ProductImageModel(
-        var link: String,
-        var height: Int,
-        var width: Int) : Parcelable {
+open class ProductImageModel(
+        var link: String = "",
+        var height: Int = 0,
+        var width: Int = 0) : RealmObject(), Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readInt(),
