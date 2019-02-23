@@ -3,7 +3,6 @@ package com.android.thedgmh.data
 import com.android.thedgmh.model.ProductItemModel
 import com.android.thedgmh.model.ProductsModel
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.realm.Realm
 
 /**
@@ -11,6 +10,9 @@ import io.realm.Realm
  */
 class ProductsLocalDataSource : ProductsDataSource {
 
+    /**
+     * return the count of products in the local database
+     */
     override fun getProductsSavedCount(): Long {
         val realmObject = Realm.getDefaultInstance()
         realmObject.beginTransaction()
@@ -19,6 +21,9 @@ class ProductsLocalDataSource : ProductsDataSource {
         return count
     }
 
+    /**
+     * get the products from the local database
+     */
     override fun getProducts(): Observable<ProductsModel>? {
         val realmObject = Realm.getDefaultInstance()
         realmObject.beginTransaction()
@@ -28,6 +33,9 @@ class ProductsLocalDataSource : ProductsDataSource {
         return Observable.just(products)
     }
 
+    /**
+     * save the products to the local database
+     */
     override fun saveProductsItems(productsItems: List<ProductItemModel>) {
         val realmObject = Realm.getDefaultInstance()
         realmObject.beginTransaction()

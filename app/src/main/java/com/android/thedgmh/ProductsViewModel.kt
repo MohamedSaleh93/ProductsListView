@@ -2,24 +2,25 @@ package com.android.thedgmh
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.android.thedgmh.data.ProductsUseCase
+import com.android.thedgmh.data.UseCase
 import com.android.thedgmh.model.ProductItemModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Created by mohamedsaleh on 2/16/19.
+ *
+ * View model class for getting products from the use case class and add it to the live data list
+ * or return the error message
  */
-class ProductsViewModel: ViewModel() {
+class ProductsViewModel @Inject constructor(var productsUseCase: UseCase): ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    private val productsUserCase = ProductsUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
     val productsItemsList = MutableLiveData<List<ProductItemModel>>()
     val loadingProductsError = MutableLiveData<String>()
 
     fun getProducts() {
-        productsUserCase.getProducts()?.subscribe({
+        productsUseCase.getProducts()?.subscribe({
             productsList ->
             productsItemsList.postValue(productsList.productsData)
         }, {

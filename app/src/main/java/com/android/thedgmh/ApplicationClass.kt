@@ -1,6 +1,8 @@
 package com.android.thedgmh
 
 import android.app.Application
+import com.android.thedgmh.injection.AppComponent
+import com.android.thedgmh.injection.DaggerAppComponent
 import io.realm.Realm
 
 /**
@@ -8,8 +10,16 @@ import io.realm.Realm
  */
 class ApplicationClass: Application() {
 
+    companion object {
+        lateinit var appComponent: AppComponent
+    }
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
+        appComponent = buildComponent()
+    }
+
+    private fun buildComponent(): AppComponent {
+        return DaggerAppComponent.builder().build()
     }
 }

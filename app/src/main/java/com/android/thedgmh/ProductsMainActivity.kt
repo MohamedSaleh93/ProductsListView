@@ -8,13 +8,21 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import com.android.thedgmh.adapter.ProductsAdapter
+import com.android.thedgmh.factory.ViewModelFactory
 import com.android.thedgmh.model.ProductItemModel
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
+
+/**
+ * Class that responsible for create the list of products
+ */
 
 class ProductsMainActivity : AppCompatActivity() {
 
     private val TAG = ProductsMainActivity::class.java.name
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var productsViewModel: ProductsViewModel
     private lateinit var productsAdapter: ProductsAdapter
     private val DATA_LOADED = "DATA LOADED"
@@ -23,6 +31,8 @@ class ProductsMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ApplicationClass.appComponent.inject(this)
         setContentView(R.layout.activity_main)
 
         productsAdapter = ProductsAdapter(ArrayList<ProductItemModel>())
@@ -30,7 +40,7 @@ class ProductsMainActivity : AppCompatActivity() {
         productsRV.layoutManager = layoutManager
         productsRV.adapter = productsAdapter
 
-        productsViewModel = ViewModelProviders.of(this).get(ProductsViewModel::class.java)
+        productsViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductsViewModel::class.java)
 
         productsViewModel.productsItemsList.observe(this, Observer {
             productsList -> onProductsDataLoaded(productsList)
@@ -48,6 +58,10 @@ class ProductsMainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method to handle the return products from view model and change the view state depend on status
+     * @param(productList) the list products
+     */
     private fun onProductsDataLoaded(productsList: List<ProductItemModel>?) {
         productsAdapter.addItems(productsList)
         productsList?.let {
@@ -59,11 +73,19 @@ class ProductsMainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method to handle if there is an error returned while loading the products
+     * @param(errorMessage) the error message that returned from loading process
+     */
     private fun onLoadingDataReturnedError(errorMessage: String?) {
         Log.e(TAG, "Error while loading products: [$errorMessage]")
         changeViewState(SERVER_ERROR)
     }
 
+    /**
+     * Method to change the view depend on the state that returned
+     * @param(status) the value of status
+     */
     private fun changeViewState(status: String) {
         when(status) {
             DATA_LOADED -> {
